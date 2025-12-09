@@ -1,26 +1,28 @@
 name: learn workflow
-  
+
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   setup_django_project:
     runs-on: ubuntu-latest
-    strategy: 
+    strategy:
       max-parallel: 4
       matrix:
-        python-verson: [3.12]
+        python-version: [3.12]
 
-    steps: 
-      - name: checkout code
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v6
-      - name: step-up python ${{matrix.python-version}}
-        uses: actions/setup-python@v6
-        with: 
-          python-version: ${{matrix.python-version}}
 
-      - name: install dependencies   
+      - name: Setup python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: run tests
+
+      - name: Run tests
         run: python manage.py test
